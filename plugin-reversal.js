@@ -47,11 +47,6 @@ var jsPsychReversal = (function (jspsych) {
                 type: jspsych.ParameterType.INT,
                 default: 1500
             },
-            /** Whether to show response deadline warning */
-            show_warning: {
-                type: jspsych.ParameterType.BOOL,
-                default: true
-            },
             /** ITI */
             ITI: {
                 type: jspsych.ParameterType.INT,
@@ -108,8 +103,7 @@ var jsPsychReversal = (function (jspsych) {
             // Placeholder for response data
             var response = {
                 rt: null,
-                key: null,
-                response_deadline_warning: false
+                key: null
             };
 
             // Check whether in simulation mode
@@ -129,7 +123,6 @@ var jsPsychReversal = (function (jspsych) {
                     feedback_left: trial.feedback_left, 
                     feedback_right: trial.feedback_right,
                     optimal_right: trial.optimal_right,
-                    response_deadline_warning: response.response_deadline_warning,
                     rt: response.rt,
                     response: response.key == null ? null : this.keys[response.key.toLowerCase()]
                 };
@@ -190,12 +183,9 @@ var jsPsychReversal = (function (jspsych) {
 
             // Warn that responses need to be quicker
             const deadline_warning = () => {
-
-                // Document that warning was shown
-                response.response_deadline_warning = true;
                 
                 // Display messge
-                showTemporaryWarning("Don't forget to participate!", trial.warning_duration - 200)
+                document.getElementById('rev-deadline-warning').innerText = 'Please respond more quickly!'
 
                 // End trial
                 this.jsPsych.pluginAPI.setTimeout(() => {
@@ -218,13 +208,7 @@ var jsPsychReversal = (function (jspsych) {
 
             // Set up response deadline timer
             if (trial.response_deadline > 0) {
-
-                if (trial.show_warning){
-                    this.jsPsych.pluginAPI.setTimeout(deadline_warning, trial.response_deadline);
-                } else {
-                    this.jsPsych.pluginAPI.setTimeout(ITI, trial.response_deadline);
-                }
-                
+                this.jsPsych.pluginAPI.setTimeout(deadline_warning, trial.response_deadline);
             }
             
         }

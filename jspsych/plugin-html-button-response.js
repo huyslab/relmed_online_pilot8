@@ -1,10 +1,9 @@
-// Change code since enable button wasn't working
 var jsPsychHtmlButtonResponse = (function (jspsych) {
   'use strict';
 
   var _package = {
     name: "@jspsych/plugin-html-button-response",
-    version: "2.0.1",
+    version: "2.0.0",
     description: "jsPsych plugin for displaying a stimulus and getting a button response",
     type: "module",
     main: "dist/index.cjs",
@@ -180,13 +179,12 @@ var jsPsychHtmlButtonResponse = (function (jspsych) {
         }, trial.stimulus_duration);
       }
       if (trial.enable_button_after > 0) {
-        var btns = document.querySelectorAll("#jspsych-html-button-response-btngroup button");
-        console.log(btns)
+        var btns = document.querySelectorAll(".jspsych-html-button-response-button button");
         for (var i = 0; i < btns.length; i++) {
           btns[i].setAttribute("disabled", "disabled");
         }
         this.jsPsych.pluginAPI.setTimeout(() => {
-          var btns2 = document.querySelectorAll("#jspsych-html-button-response-btngroup button");
+          var btns2 = document.querySelectorAll(".jspsych-html-button-response-button button");
           for (var i2 = 0; i2 < btns2.length; i2++) {
             btns2[i2].removeAttribute("disabled");
           }
